@@ -1,0 +1,22 @@
+{
+  "name": "graphql-goodreads",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/VLCDaniel/GoodReads-GraphQL-Lab.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/VLCDaniel/GoodReads-GraphQL-Lab/issues"
+  },
+  "homepage": "https://github.com/VLCDaniel/GoodReads-GraphQL-Lab#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
