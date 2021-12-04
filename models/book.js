@@ -22,9 +22,6 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Book.init({
-    firstName: DataTypes.STRING,
-    lastName: DataTypes.STRING,
-    email: DataTypes.STRING,
     title: DataTypes.STRING,
     description: DataTypes.STRING,
     releaseDate: DataTypes.DATE,
