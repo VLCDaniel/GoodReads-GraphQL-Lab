@@ -16,9 +16,7 @@ module.exports = (sequelize, DataTypes) => {
       models.Book.belongsTo(models.Category, {
         foreignKey: 'categoryId'
       });
-      models.Book.belongsToMany(models.User, {
-        through: 'Reviews',
-      });
+      models.Book.hasMany(models.Review, { as: 'reviews' });
     }
   };
   Book.init({

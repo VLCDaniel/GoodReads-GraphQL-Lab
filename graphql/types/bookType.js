@@ -2,6 +2,7 @@ const {
     GraphQLObjectType,
     GraphQLString,
     GraphQLID,
+    GraphQLList
 } = require('graphql');
 
 const AuthorType = require('./authorType');
@@ -21,12 +22,19 @@ const BookType = new GraphQLObjectType({
         releaseDate: {
             type: GraphQLString
         },
-        author:{
+        author: {
             type: AuthorType,
             resolve: async (source) => {
                 return await source.getAuthor();
             }
 
+        },
+        reviews: {
+            type: new GraphQLList(require('./reviewType')),
+            resolve: async (source) => {
+                console.info(source);
+                return await source.getReviews();
+            }
         }
 
     }

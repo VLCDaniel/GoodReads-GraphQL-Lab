@@ -7,7 +7,7 @@ module.exports = {
     const allAuthors = await db.Author.findAll();
     const allCategories = await db.Category.findAll();
     const data = [];
-    for(let i = 0; i < 100; i++){
+    for (let i = 0; i < 100; i++) {
       const authorId = Math.floor(Math.random() * (allAuthors.length - 1));
       const categoryId = Math.floor(Math.random() * (allCategories.length - 1));
       data.push({
@@ -25,9 +25,9 @@ module.exports = {
 
     const reviews = [];
     const allUsers = await db.User.findAll();
-    const allBooks = await db.Book.findAll({attributes: ['id']});
+    const allBooks = await db.Book.findAll({ attributes: ['id'] });
     const _status = ['reading', 'read'];
-    for(let i = 0; i < 100; i++){
+    for (let i = 0; i < 100; i++) {
       const userId = Math.floor(Math.random() * (allUsers.length - 1));
       const bookId = Math.floor(Math.random() * (allBooks.length - 1));
       reviews.push({
