@@ -9,10 +9,12 @@ const {
 const bookType=  require('./types/bookType');
 const userType = require('./types/userType');
 const authorType = require('./types/authorType');
+const searchResultType = require('./types/searchResultType');
 
 const {getAllBooks,getBookById} = require('../controllers/books');
 const {getAllUsers} = require('../controllers/users');
 const {getAllAuthors} = require('../controllers/authors');
+const { search } = require('../controllers/search');
 
 const queryType = new GraphQLObjectType({
     name: 'Query',
@@ -46,8 +48,20 @@ const queryType = new GraphQLObjectType({
             resolve: async() => {
                 return await getAllAuthors();
             }
+        },
+        search: {
+            type: new GraphQLList(searchResultType),
+            args: {
+                query: {
+                    type: GraphQLString
+                }
+            },
+            resolve: async (source, { query }) => {
+                return search(query);
+            }
         }
     },
+
 })
 
 module.exports = queryType;
