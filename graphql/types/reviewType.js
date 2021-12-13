@@ -3,33 +3,33 @@ const {
 	GraphQLString,
 	GraphQLID,
 	GraphQLInt,
+	GraphQLList,
 } = require('graphql');
 
-// const BookType = require('./bookType');
-const UserType = require('./userType');
-
-const ReviewType = new GraphQLObjectType({
+var ReviewType = new GraphQLObjectType({
 	name: 'Review',
-	fields: {
+	fields: () =>  ({
 		id: { type: GraphQLID },
 		status: { type: GraphQLString },
 		rating: { type: GraphQLInt },
 		comment: { type: GraphQLString },
-		// book: {
-		// 	type: BookType,
-		// 	resolve: async (source) => {
-		// 		return await source.getBook();
-		// 	}
-		// },
+		book: {
+			type: require('./bookType'),
+			resolve: async (source) => {
+				return await source.getBook();
+			}
+		},
 		user: {
-			type: UserType,
+			type: require('./userType'),
 			resolve: async (source) => {
 				return await source.getUser();
 			}
 		}
 
 
-	}
+	}),
 });
 
+
 module.exports = ReviewType;
+
