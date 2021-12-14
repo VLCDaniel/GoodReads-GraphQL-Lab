@@ -1,6 +1,5 @@
 const db = require('../models');
 
-//TODO redo the req,res part, !fucking copilot 
 module.exports.getAuthorById = async (id) => {
     try {
         const author = await db.Author.findById(id);
