@@ -17,15 +17,6 @@ module.exports = {
       releaseDate: {
         type: Sequelize.DATE
       },
-      authorId: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: {
-            tableName: 'Authors'
-          },
-          key: 'id'
-        }
-      },
       categoryId: {
         type: Sequelize.INTEGER,
         references: {

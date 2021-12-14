@@ -8,14 +8,12 @@ module.exports = {
     const allCategories = await db.Category.findAll();
     const data = [];
     for (let i = 0; i < 100; i++) {
-      const authorId = Math.floor(Math.random() * (allAuthors.length - 1));
       const categoryId = Math.floor(Math.random() * (allCategories.length - 1));
       data.push({
         id: i,
         title: faker.name.title(),
         description: faker.commerce.productDescription(),
         releaseDate: faker.date.past(20),
-        authorId,
         categoryId,
         createdAt: new Date(),
         updatedAt: new Date()
@@ -42,6 +40,20 @@ module.exports = {
       });
     }
     await queryInterface.bulkInsert('Reviews', reviews, {});
+
+    const authorBooks = [];
+    for (let i = 0; i < 100; i++) {
+      const authorId = Math.floor(Math.random() * (allAuthors.length - 1));
+      const bookId = Math.floor(Math.random() * (allBooks.length - 1));
+      authorBooks.push({
+        id: i,
+        authorId,
+        bookId,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      });
+    }
+    await queryInterface.bulkInsert('AuthorBooks', authorBooks, {});
   },
 
   down: async (queryInterface, Sequelize) => {
