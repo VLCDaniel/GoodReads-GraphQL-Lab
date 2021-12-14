@@ -58,7 +58,7 @@ const queryType = new GraphQLObjectType({
             resolve: async () => {
                 return await getAllReviews();
             }
-        } 
+        },
         search: {
             type: new GraphQLList(searchResultType),
             args: {
