@@ -2,7 +2,7 @@ const db = require('../models');
 
 module.exports.getAuthorById = async (id) => {
     try {
-        const author = await db.Author.findById(id);
+        const author = await db.Author.findByPk(id);
         return author;
     } catch (err) {
         return err;
@@ -33,13 +33,19 @@ module.exports.createAuthor = async (args,context) => {
     }
 }
 
-module.exports.updateAuthor = async (req, res) => {
+module.exports.updateAuthor = async (args) => {
     try {
-        const author = await db.Author.findByIdAndUpdate(req.params.id, req.body, { new: true });
-        return author;
+        const {id, firstName, lastName, description} = args;
+        const author = await db.Author.update({firstName,lastName,description}, {
+            where: {
+                id: id
+            }
+        });
+        return this.getAuthorById(id);
     } catch (err) {
         return err;
     }
+    
 }
 
 module.exports.deleteAuthor = async (req, res) => {

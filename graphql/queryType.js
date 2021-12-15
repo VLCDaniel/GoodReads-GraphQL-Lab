@@ -13,7 +13,7 @@ const reviewType = require('./types/reviewType');
 
 const { getAllBooks, getBookById } = require('../controllers/books');
 const { getAllUsers } = require('../controllers/users');
-const { getAllAuthors } = require('../controllers/authors');
+const { getAllAuthors, getAuthorById } = require('../controllers/authors');
 const { getAllReviews } = require('../controllers/reviews');
 
 const searchResultType = require('./types/searchResultType');
@@ -51,6 +51,17 @@ const queryType = new GraphQLObjectType({
             type: new GraphQLList(authorType),
             resolve: async () => {
                 return await getAllAuthors();
+            }
+        },
+        author: {
+            type: authorType,
+            args: {
+                id: {
+                    type: new GraphQLNonNull(GraphQLID)
+                }
+            },
+            resolve: async (source, { id }, context) => {
+                return await getAuthorById(id);
             }
         },
         reviews: {

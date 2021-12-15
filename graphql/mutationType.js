@@ -23,6 +23,10 @@ const { updateUser } = require("../controllers/users");
 const updateUserInputType = require("./types/updateUserInputType");
 const userType = require("./types/userType");
 
+const {updateAuthor} = require("../controllers/authors");
+const updateAuthorInputType = require("./types/updateAuthorInputType");
+const authorType = require("./types/authorType");
+
 const mutationType = new GraphQLObjectType({
   name: "Mutation",
   fields: {
@@ -78,6 +82,17 @@ const mutationType = new GraphQLObjectType({
         return updateUser(args.updateUserInput, context);
       },
     },
+    updateAuthorInputType: {
+      type: authorType,
+      args: {
+        updateAuthorInput: {
+          type: updateAuthorInputType,
+        },
+      },
+      resolve: async(source,args,context) =>{
+        return updateAuthor(args.updateAuthorInput,context);
+      }
+    }
   },
 });
 module.exports = mutationType;
