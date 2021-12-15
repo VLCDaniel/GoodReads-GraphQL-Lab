@@ -7,7 +7,6 @@ const createBookType = new GraphQLInputObjectType({
         title: { type: new GraphQLNonNull(GraphQLString) },
         description : { type: new GraphQLNonNull(GraphQLString) },
         releaseDate : { type: new GraphQLNonNull(GraphQLString) },
-        authorId : { type: new GraphQLNonNull(GraphQLID) },
         categoryId : { type: new GraphQLNonNull(GraphQLID) },
 
     }

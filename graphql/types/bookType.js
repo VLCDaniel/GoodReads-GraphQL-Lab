@@ -23,10 +23,10 @@ const BookType = new GraphQLObjectType({
     releaseDate: {
       type: GraphQLString,
     },
-    author: {
-      type: AuthorType,
+    authors: {
+      type: new GraphQLList(AuthorType),
       resolve: async (source) => {
-        return await source.getAuthor();
+        return await source.getAuthors();
       },
     },
     reviews: {

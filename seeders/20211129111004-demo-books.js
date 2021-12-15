@@ -53,7 +53,7 @@ module.exports = {
         updatedAt: new Date()
       });
     }
-    await queryInterface.bulkInsert('AuthorBooks', authorBooks, {});
+    await queryInterface.bulkInsert('AuthorBook', authorBooks, {});
   },
 
   down: async (queryInterface, Sequelize) => {

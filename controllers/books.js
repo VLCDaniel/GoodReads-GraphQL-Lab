@@ -22,10 +22,9 @@ module.exports.getBookById = async (id) => {
 
 module.exports.createBook = async (args, context) => {
   try {
-    const { title, authorId, description, releaseDate, categoryId } = args;
+    const { title, description, releaseDate, categoryId } = args;
     const book = await db.Book.create({
       title,
-      authorId,
       description,
       releaseDate,
       categoryId,
