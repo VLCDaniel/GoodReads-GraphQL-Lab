@@ -35,7 +35,7 @@ module.exports = {
         type: Sequelize.DATE
       }
     });
-
+    //TODO migratie noua separata
     await queryInterface.createTable('Reviews', {
       id: {
         allowNull: false,

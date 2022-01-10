@@ -1,6 +1,8 @@
 'use strict';
 
 module.exports = {
+
+  //TODO move to book migration
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable('AuthorBook', {
       id: {
