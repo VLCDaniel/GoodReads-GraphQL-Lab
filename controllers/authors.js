@@ -48,6 +48,7 @@ module.exports.updateAuthor = async (args) => {
     
 }
 
+// Todo express ugh
 module.exports.deleteAuthor = async (req, res) => {
     try {
         const author = await db.Author.findByIdAndDelete(req.params.id);

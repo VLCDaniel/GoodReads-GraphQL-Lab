@@ -27,6 +27,14 @@ const {updateAuthor} = require("../controllers/authors");
 const updateAuthorInputType = require("./types/updateAuthorInputType");
 const authorType = require("./types/authorType");
 
+const updateReadingStatusInputType = require("./types/updateReadingStatusInputType");
+const {updateReadingStatus} = require("../controllers/reviews");
+const reviewType = require("./types/reviewType");
+
+const createListInputType = require("./types/inputTypes/createListInputType");
+const listType = require("./types/listType");
+const {createList, addBookToList, removeBookFromList, mergeLists, getListById} = require("../controllers/lists");
+
 const mutationType = new GraphQLObjectType({
   name: "Mutation",
   fields: {
@@ -82,7 +90,7 @@ const mutationType = new GraphQLObjectType({
         return updateUser(args.updateUserInput, context);
       },
     },
-    updateAuthorInputType: {
+    updateAuthorInput: {
       type: authorType,
       args: {
         updateAuthorInput: {
@@ -92,7 +100,89 @@ const mutationType = new GraphQLObjectType({
       resolve: async(source,args,context) =>{
         return updateAuthor(args.updateAuthorInput,context);
       }
+    },
+
+    updateReadingProgress: {
+      type: reviewType,
+      args: {
+        readingStatusInput: {
+          type: updateReadingStatusInputType,
+        }
+      },
+      resolve: async(source,args,context) => {
+        return updateReadingStatus(args.readingStatusInput,context);
+      }
+    },
+    
+    getListById:{
+      type: listType,
+      args: {
+        listId: {
+          type: new GraphQLNonNull(GraphQLID)
+        }
+      },
+      resolve: async(source,args,context) => {
+          return await getListById(source,args,context);
+      }
+    },
+
+    createBookList: {
+      type: listType,
+      args: {
+        createListInput: {
+          type: createListInputType,
+        }
+      },
+      resolve: async(source,args,context) => {
+        return await createList(source,args.createListInput,context);
+      },
+    },
+
+    addBookToList: {
+      type: listType,
+      args: {
+        listId: {
+          type: new GraphQLNonNull(GraphQLID)
+        },
+        bookId: {
+          type: new GraphQLNonNull(GraphQLID)
+        }
+      },
+      resolve: async(source,args,context) => {
+        return await addBookToList(source,args,context);
+      }
+    },
+
+    removeBookFromList: {
+      type: listType,
+      args: {
+        listId: {
+          type: new GraphQLNonNull(GraphQLID)
+        },
+        bookId: {
+          type: new GraphQLNonNull(GraphQLID)
+        }
+      },
+      resolve: async(source,args,context) => {
+        return await removeBookFromList(source,args,context);
+      }
+    },
+
+    mergeLists: {
+      type: listType,
+      args: {
+        listId: {
+          type: new GraphQLNonNull(GraphQLID)
+        },
+        mergeListId: {
+          type: new GraphQLNonNull(GraphQLID)
+        }
+      },
+      resolve: async(source,args,context) => {
+        return await mergeLists(source,args,context);
+      }
     }
+
   },
 });
 module.exports = mutationType;

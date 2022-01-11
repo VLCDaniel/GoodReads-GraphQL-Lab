@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('Books', {
+    await queryInterface.createTable('Lists', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -14,14 +14,11 @@ module.exports = {
       description: {
         type: Sequelize.STRING
       },
-      releaseDate: {
-        type: Sequelize.DATE
-      },
-      categoryId: {
+      userId: {
         type: Sequelize.INTEGER,
         references: {
           model: {
-            tableName: 'Categories'
+            tableName: 'Users',
           },
           key: 'id'
         }
@@ -35,42 +32,33 @@ module.exports = {
         type: Sequelize.DATE
       }
     });
-    //TODO migratie noua separata
-    await queryInterface.createTable('Reviews', {
+
+    await queryInterface.createTable('BookList',{
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      userId: {
-        allowNull: false,
-        type: Sequelize.INTEGER,
-        references: {
-          model: {
-            tableName: 'Users',
-          },
-          key: 'id'
-        },
-      },
       bookId: {
         allowNull: false,
         type: Sequelize.INTEGER,
         references: {
           model: {
-            tableName: 'Books'
+            tableName: 'Books',
           },
           key: 'id'
         }
       },
-      status: {
-        type: Sequelize.ENUM('reading', 'read')
-      },
-      rating: {
-        type: Sequelize.INTEGER
-      },
-      comment: {
-        type: Sequelize.STRING
+      listId: {
+        allowNull: false,
+        type: Sequelize.INTEGER,
+        references: {
+          model: {
+            tableName: 'Lists',
+          },
+          key: 'id',
+        }
       },
       createdAt: {
         allowNull: false,
@@ -83,7 +71,7 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('Books');
-    await queryInterface.dropTable('Reviews');
+    await queryInterface.dropTable('Lists');
+    await queryInterface.dropTable('BookList');
   }
 };
