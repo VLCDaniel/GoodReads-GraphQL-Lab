@@ -2,7 +2,7 @@ const db = require("../models");
 
 module.exports.createList = async (source,args,context) => {
     try {
-        const { userId } = context;
+        const userId  = context.user.id;
         const { title, description} = args;
         const list = await db.List.create({
         title,
@@ -29,7 +29,7 @@ module.exports.getListById = async (source,args,context) => {
 
 module.exports.addBookToList = async (source,args,context) => {
     try {
-        const { userId } = context;
+        const userId  = context.user.id;
         const { bookId, listId } = args;
 
         const list = await db.List.findByPk(listId);
@@ -59,7 +59,7 @@ module.exports.addBookToList = async (source,args,context) => {
 
 module.exports.removeBookFromList = async (source,args,context) => {
     try{
-        const { userId } = context;
+        const userId  = context.user.id;
         const { bookId, listId } = args;
 
         const list = await db.List.findByPk(listId);
@@ -87,7 +87,7 @@ module.exports.removeBookFromList = async (source,args,context) => {
  */
 module.exports.mergeLists = async (source,args,context) => {
     try{
-        const { userId } = context;
+        const userId  = context.user.id;
         const { listId, mergeListId } = args;
 
         const list1 = await db.List.findByPk(listId);

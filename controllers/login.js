@@ -45,7 +45,7 @@ const loginHandler = async (email, password) => {
   }
 };
 
-const signUpHandler = async (email, password) => {
+const signUpHandler = async (name, email, password) => {
   let user = await db.User.findOne({
     where: {
       email,
@@ -57,6 +57,7 @@ const signUpHandler = async (email, password) => {
   } else {
     password = await bcrypt.hash(password, 10);
     user = await db.User.create({
+      username:name,
       email,
       password,
     });

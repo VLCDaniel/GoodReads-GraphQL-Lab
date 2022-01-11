@@ -1,4 +1,5 @@
 const db = require("../models");
+const Permissions = require("../config/permissions")
 
 module.exports.getAllUsers = async () => {
   try {
@@ -42,7 +43,7 @@ module.exports.createUser = async (args) => {
 
 // Updated User
 module.exports.updateUser = async (args, context) => {
-  const { userId } = context;
+  const userId  = context.user.id;
 
   try {
     const updatedUser = await db.User.update(args, {
@@ -58,6 +59,15 @@ module.exports.updateUser = async (args, context) => {
 };
 
 module.exports.deleteUser = async (id) => {
+
+  const {user} = context;
+  
+  const hasPermission = await user.can(Permissions.DELETE_USER);
+
+  if(!hasPermission) {
+    return null;
+  }
+  
   try {
     const ob = await db.User.destroy({
       where: {

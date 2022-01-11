@@ -6,7 +6,7 @@ module.exports.getAllReviews = () => {
 
 module.exports.updateReadingStatus = async (args,context) => {
 	const {  book_id, readingStatus } = args;
-	const {userId} = context;
+	const userId  = context.user.id;
 
 	try {
 		const review = await db.Review.findOne({
