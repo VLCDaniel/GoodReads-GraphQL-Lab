@@ -11,7 +11,7 @@ const userType = require('./types/userType');
 const authorType = require('./types/authorType');
 const reviewType = require('./types/reviewType');
 
-const { getAllBooks, getBookById } = require('../controllers/books');
+const { getAllBooks, getBookById, getReadingList,getUserReadingList } = require('../controllers/books');
 const { getAllUsers } = require('../controllers/users');
 const { getAllAuthors, getAuthorById } = require('../controllers/authors');
 const { getAllReviews } = require('../controllers/reviews');
@@ -79,6 +79,23 @@ const queryType = new GraphQLObjectType({
             },
             resolve: async (source, { query }) => {
                 return search(query);
+            }
+        },
+        getCurrentUserReadingList:{
+            type: new GraphQLList(bookType),
+            resolve: async (source, args, context) => {
+                return await getReadingList(context);  
+            }
+        },
+        getUserReadingList:{
+            type: new GraphQLList(bookType),
+            args: {
+                userId: {
+                    type: new GraphQLNonNull(GraphQLID)
+                }
+            },
+            resolve: async (source, { userId }, context) => {
+                return await getUserReadingList(userId);
             }
         }
     },

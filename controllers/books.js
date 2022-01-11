@@ -63,3 +63,42 @@ module.exports.deleteBook = async (req, res) => {
     return null;
   }
 };
+
+module.exports.getReadingList = async (context) =>{
+  const {userId} = context;
+
+  try{
+    const readingList = await db.Review.findAll({
+      where: {
+        userId: userId,
+      },
+      include:{
+        model: db.Book,
+      }
+    });
+    const books = readingList.map(review => review.Book);
+    console.log(books);
+    return books;
+  }catch(e){
+    console.log(e);
+  }
+};
+
+module.exports.getUserReadingList = async (id) => {
+  try {
+    const readingList = await db.Review.findAll({
+      where: {
+        userId: id,
+      },
+      include:{
+        model: db.Book,
+      }
+    });
+    const books = readingList.map(review => review.Book);
+    console.log(books);
+    return books;
+  } catch (error) {
+    console.error("Something went wrong");
+    return null;
+  }
+}
