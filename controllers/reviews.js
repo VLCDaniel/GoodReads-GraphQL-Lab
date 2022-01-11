@@ -9,7 +9,6 @@ module.exports.updateReadingStatus = async (args,context) => {
 	const {userId} = context;
 
 	try {
-		console.log("Im trying")
 		const review = await db.Review.findOne({
 			where: {
 				bookId: book_id,

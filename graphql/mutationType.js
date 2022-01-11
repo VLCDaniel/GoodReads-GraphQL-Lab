@@ -31,6 +31,10 @@ const updateReadingStatusInputType = require("./types/updateReadingStatusInputTy
 const {updateReadingStatus} = require("../controllers/reviews");
 const reviewType = require("./types/reviewType");
 
+const createListInputType = require("./types/inputTypes/createListInputType");
+const listType = require("./types/listType");
+const {createList, addBookToList} = require("../controllers/lists");
+
 const mutationType = new GraphQLObjectType({
   name: "Mutation",
   fields: {
@@ -86,8 +90,7 @@ const mutationType = new GraphQLObjectType({
         return updateUser(args.updateUserInput, context);
       },
     },
-    // TODO : Why "type"
-    updateAuthorInputType: {
+    updateAuthorInput: {
       type: authorType,
       args: {
         updateAuthorInput: {
@@ -109,6 +112,34 @@ const mutationType = new GraphQLObjectType({
       resolve: async(source,args,context) => {
         return updateReadingStatus(args.readingStatusInput,context);
       }
+    },
+
+    createBookList: {
+      type: listType,
+      args: {
+        createListInput: {
+          type: createListInputType,
+        }
+      },
+      resolve: async(source,args,context) => {
+        return await createList(source,args.createListInput,context);
+      },
+    },
+
+    addBookToList: {
+      type: listType,
+      args: {
+        listId: {
+          type: new GraphQLNonNull(GraphQLID)
+        },
+        bookId: {
+          type: new GraphQLNonNull(GraphQLID)
+        }
+      },
+      resolve: async(source,args,context) => {
+        return await addBookToList(source,args,context);
+      }
+
     }
 
   },
