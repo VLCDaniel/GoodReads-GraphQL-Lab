@@ -15,6 +15,7 @@ module.exports = {
         lastName: faker.name.lastName(),
         createdAt: new Date(),
         updatedAt: new Date(),
+        roleId: 0,
       });
     }
     await queryInterface.bulkInsert("Users", data, {});
