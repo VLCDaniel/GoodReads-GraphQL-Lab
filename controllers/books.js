@@ -65,7 +65,7 @@ module.exports.deleteBook = async (req, res) => {
 };
 
 module.exports.getReadingList = async (context) =>{
-  const {userId} = context;
+  const userId  = context.user.id;
 
   try{
     const readingList = await db.Review.findAll({

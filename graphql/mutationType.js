@@ -72,9 +72,9 @@ const mutationType = new GraphQLObjectType({
         },
       },
       resolve: async (source, args) => {
-        const { email, password } = args.signupInput;
+        const { name, email, password } = args.signupInput;
 
-        const token = signUpHandler(email, password);
+        const token = signUpHandler(name, email, password);
 
         return { token };
       },

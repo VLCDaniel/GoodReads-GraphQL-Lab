@@ -10,6 +10,9 @@ const {
   updateUser,
   deleteUser,
 } = require("./controllers/users");
+
+const authorizationMiddleware = require('./middlewares/authorization');
+
 const { getUserId } = require("./controllers/login");
 
 const app = express();
@@ -24,12 +27,10 @@ app.get("/users", getAllUsers);
 
 app.use(
   "/graphql",
+  authorizationMiddleware,
   graphqlHTTP((req, res, graphQLParams) => {
     return {
       schema,
-      context: {
-        userId: req && req.headers.authorization ? getUserId(req) : null,
-      },
     };
   })
 );
