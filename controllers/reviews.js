@@ -15,6 +15,12 @@ module.exports.updateReadingStatus = async (args,context) => {
 				userId: userId
 			}
 		});
+		if(readingStatus == "remove" && review){
+			console.log("Should remove");
+			console.log(userId)
+			review.destroy();
+			return null;
+		}
 		if (review) {
 			review.status = readingStatus;
 			review.save();
@@ -31,4 +37,23 @@ module.exports.updateReadingStatus = async (args,context) => {
 		console.log(e);
 	}
 
+}
+
+module.exports.createReview = async (args,context) => {
+	console.log(args)
+	const { bookId, rating, comment } = args;
+	const userId  = context.user.id;
+
+	try {
+		const new_review = db.Review.create({
+			bookId: bookId,
+			userId: userId,
+			rating: rating,
+			status: "read", // Reviews should be given after you read a book
+			comment: comment,
+		})
+		return new_review;
+	}catch(e){
+		console.log(e);
+	}
 }

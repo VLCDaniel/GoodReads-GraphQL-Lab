@@ -11,13 +11,15 @@ const userType = require('./types/userType');
 const authorType = require('./types/authorType');
 const reviewType = require('./types/reviewType');
 
-const { getAllBooks, getBookById, getReadingList,getUserReadingList } = require('../controllers/books');
-const { getAllUsers } = require('../controllers/users');
+const { getAllBooks, getBookById, getReadingList,getUserReadingList,getBooksInCategory,getHighestRatedBooks } = require('../controllers/books');
+const { getAllUsers, getSimilarityProfile} = require('../controllers/users');
 const { getAllAuthors, getAuthorById } = require('../controllers/authors');
 const { getAllReviews } = require('../controllers/reviews');
 
 const searchResultType = require('./types/searchResultType');
 const { search } = require('../controllers/search');
+
+const ratingBookType = require('./types/misc/ratingBookType');
 
 
 const queryType = new GraphQLObjectType({
@@ -96,6 +98,34 @@ const queryType = new GraphQLObjectType({
             },
             resolve: async (source, { userId }, context) => {
                 return await getUserReadingList(userId);
+            }
+        },
+        getBooksInCategory:{
+            type: new GraphQLList(bookType),
+            args: {
+                category: {
+                    type: new GraphQLNonNull(GraphQLString)
+                }
+            },
+            resolve: async (source, args, context) => {
+                return await getBooksInCategory(args.category);
+            }
+        },
+        getHighestRatedBooks:{
+            type: new GraphQLList(ratingBookType),
+            resolve: async (source, args, context) => {
+                return await getHighestRatedBooks();
+            }
+        },
+        getSimilarityProfile:{
+            type: new GraphQLList(bookType),
+            args: {
+                otherUserId: {
+                    type: new GraphQLNonNull(GraphQLID)
+                }
+            },
+            resolve: async (source, { otherUserId }, context) => {
+                return await getSimilarityProfile(otherUserId, context);
             }
         }
     },

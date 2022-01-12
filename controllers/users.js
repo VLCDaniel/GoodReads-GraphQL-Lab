@@ -1,4 +1,5 @@
 const db = require("../models");
+const {Op} = require("sequelize");
 const Permissions = require("../config/permissions")
 
 module.exports.getAllUsers = async () => {
@@ -80,3 +81,47 @@ module.exports.deleteUser = async (id) => {
     return null;
   }
 };
+
+
+module.exports.getSimilarityProfile = async (otherUserId,context) => {
+  const {user} = context;
+  if(user.id == otherUserId) {
+    return null;
+  }
+  try {
+    let books = await db.Review.findAll({
+      where: {
+        [Op.or]: [
+          {
+            userId: user.id, 
+          },
+          {
+            userId: otherUserId,
+          }
+        ]
+      },
+      include:[ 
+        {
+          model: db.Book,
+          as: "Book",
+          attributes: ["id", "title"]
+        }
+      ]
+    })
+    
+    let reptedBooks = books.filter((v,i,a)=> a.filter(t=>(t.Book.id == v.Book.id)).length > 1)
+
+    let uniqueBooks = reptedBooks.map(v=>v.Book.id)
+    uniqueBooks = [...new Set(uniqueBooks)]
+
+
+    let returnBooks = uniqueBooks.map( v=> db.Book.findByPk(v))
+
+    return await Promise.all(returnBooks);
+
+    
+  }catch(e){
+    console.log(e);
+  }
+}
+

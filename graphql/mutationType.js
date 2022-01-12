@@ -3,6 +3,7 @@ const {
   GraphQLString,
   GraphQLID,
   GraphQLNonNull,
+  GraphQLInt,
 } = require("graphql");
 
 const bookType = require("./types/bookType");
@@ -28,7 +29,7 @@ const updateAuthorInputType = require("./types/updateAuthorInputType");
 const authorType = require("./types/authorType");
 
 const updateReadingStatusInputType = require("./types/updateReadingStatusInputType");
-const {updateReadingStatus} = require("../controllers/reviews");
+const {updateReadingStatus, createReview} = require("../controllers/reviews");
 const reviewType = require("./types/reviewType");
 
 const createListInputType = require("./types/inputTypes/createListInputType");
@@ -181,6 +182,25 @@ const mutationType = new GraphQLObjectType({
       resolve: async(source,args,context) => {
         return await mergeLists(source,args,context);
       }
+    },
+
+    createReview:{
+      type: reviewType,
+      args: {
+        bookId: {
+          type: new GraphQLNonNull(GraphQLID)
+        },
+        rating:{
+          type: new GraphQLNonNull(GraphQLInt)
+        },
+        comment:{
+          type: new GraphQLNonNull(GraphQLString)
+        },
+      },
+      resolve: async(source,args,context) => {
+        return await createReview(args,context);
+      }
+
     }
 
   },

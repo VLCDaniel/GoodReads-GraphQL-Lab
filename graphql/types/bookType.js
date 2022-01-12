@@ -3,6 +3,8 @@ const {
   GraphQLString,
   GraphQLID,
   GraphQLList,
+  GraphQLFloat,
+  GraphQLInt,
 } = require("graphql");
 
 const AuthorType = require("./authorType");
