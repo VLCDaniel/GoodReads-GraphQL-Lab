@@ -35,42 +35,30 @@ module.exports = {
         type: Sequelize.DATE
       }
     });
-    //TODO migratie noua separata
-    await queryInterface.createTable('Reviews', {
+    await queryInterface.createTable('AuthorBook', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      userId: {
+      authorId: {
         allowNull: false,
         type: Sequelize.INTEGER,
         references: {
           model: {
-            tableName: 'Users',
-          },
-          key: 'id'
-        },
+            tableName: 'Authors',
+          }
+        }
       },
       bookId: {
         allowNull: false,
         type: Sequelize.INTEGER,
         references: {
           model: {
-            tableName: 'Books'
-          },
-          key: 'id'
+            tableName: 'Books',
+          }
         }
-      },
-      status: {
-        type: Sequelize.ENUM('reading', 'read')
-      },
-      rating: {
-        type: Sequelize.INTEGER
-      },
-      comment: {
-        type: Sequelize.STRING
       },
       createdAt: {
         allowNull: false,
@@ -79,11 +67,12 @@ module.exports = {
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE
-      }
+      },
     });
   },
   down: async (queryInterface, Sequelize) => {
+    await queryInterface.dropTable('AuthorBooks');
     await queryInterface.dropTable('Books');
-    await queryInterface.dropTable('Reviews');
+
   }
 };

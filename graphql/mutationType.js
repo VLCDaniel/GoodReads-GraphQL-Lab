@@ -7,8 +7,7 @@ const {
 } = require("graphql");
 
 const bookType = require("./types/bookType");
-//TODO cahnge this to eng with "-input"
-const createBookType = require("./types/createBookType");
+const createBookInputType = require("./types/createBookInputType");
 const loginResultType = require("./types/loginResultType");
 const loginInputType = require("./types/loginInputType");
 const signupInputType = require("./types/signupInputType");
@@ -43,7 +42,7 @@ const mutationType = new GraphQLObjectType({
       type: bookType,
       args: {
         createBook: {
-          type: createBookType,
+          type: createBookInputType,
         },
       },
       resolve: async (source, args) => {
