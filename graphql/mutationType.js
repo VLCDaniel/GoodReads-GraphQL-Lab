@@ -28,7 +28,7 @@ const updateAuthorInputType = require("./types/updateAuthorInputType");
 const authorType = require("./types/authorType");
 
 const updateReadingStatusInputType = require("./types/updateReadingStatusInputType");
-const {updateReadingStatus, createReview} = require("../controllers/reviews");
+const {updateReadingStatus, createReview, updateReview} = require("../controllers/reviews");
 const reviewType = require("./types/reviewType");
 
 const createListInputType = require("./types/inputTypes/createListInputType");
@@ -200,6 +200,24 @@ const mutationType = new GraphQLObjectType({
         return await createReview(args,context);
       }
 
+    },
+
+    updateReview:{
+      type: reviewType,
+      args: {
+        bookId:{
+          type: new GraphQLNonNull(GraphQLID)
+        },
+        rating:{
+          type: new GraphQLNonNull(GraphQLInt)
+        },
+        comment:{
+          type: new GraphQLNonNull(GraphQLString)
+        }
+      },
+      resolve: async(source,args,context) => {
+        return await updateReview(args,context);
+      }
     }
 
   },

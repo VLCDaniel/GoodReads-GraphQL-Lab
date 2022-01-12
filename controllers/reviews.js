@@ -57,3 +57,30 @@ module.exports.createReview = async (args,context) => {
 		console.log(e);
 	}
 }
+
+module.exports.updateReview = async (args,context) => {
+	const { bookId, rating, comment } = args;
+	const userId  = context.user.id;
+	console.log(bookId,userId);
+	try {
+		const review = await db.Review.findOne({
+			where: {
+				bookId: bookId,
+				userId: userId
+			}
+		});
+		if(review.userId != userId){
+			throw new Error("You can only update your own reviews");
+			return null;
+		}
+		if(review){
+			review.rating = rating;
+			review.comment = comment;
+			review.save();
+			return review;
+		}
+	}catch(e){
+		console.log(e);
+		return null;
+	}
+}
